@@ -93,6 +93,11 @@
   - DB
     - User, Emotion 테이블 추가 
     - DB 구조 논의 및 테이블 명세서 작성
+     ![image](https://github.com/user-attachments/assets/4c53f4c7-c2cf-471a-b790-6072de20f52d)
   - 다음 주 발표 추가 내용 논의
 
- 
+<br>
+
+ ### 2025-05-19
+- 회의 내용
+  - DB 구조 수정 회의 진행 : 테이블 3개 형태 유
