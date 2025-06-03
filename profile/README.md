@@ -30,6 +30,7 @@
 - refactor: 코드 리팩토링
 - test: 테스트 코드 추가/수정
 - chore: 빌드 업무 수정, 패키지 매니저 설정 등
+- delete: 파일 삭제
 
 #### 커밋 규칙
 팀원 개별 repository에 fork 후 PR
