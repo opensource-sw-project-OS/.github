@@ -7,7 +7,7 @@
 
 ---
 
-## 💻 주요 기능
+## 💻 주요 목표
 
 💡 **하루 동안의 소비 내역과 기분을 입력**  
 사용자는 하루 단위로 지출 내역과 감정을 기록
@@ -43,7 +43,7 @@
 
 ---
 
-## 📎 현재 사용 오픈소스 목록
+## 📎 차별점 : 많은 오픈소스 사용
 🔖 **Three.js** 감정 캐릭터를 3D로 시각화하기 위한 WebGL 라이브러리 - 따로 glb 파일 다운받아 해당 오픈소스로 3D 캐릭터 표시
 
 🔖 **GLTFLoader / OrbitControls** Three.js에서 제공하는 3D 모델 로딩 및 카메라 컨트롤 기능
@@ -54,7 +54,125 @@
 
 🔖 **Cropper.js** 이미지 업로드 후 크롭 기능
 
+🔖 **Korean_sentiment_analysis** 한국어 감정 분석용 딥러닝 모델. 감정을 자동으로 분류하는 기능
+
+🔖 **FullCalendar** 웹 페이지에 달력(캘린더) UI를 쉽게 구현 - 일정 추가, 드래그 이동, 일간/주간/월간 뷰 전환 등
+
+🔖 **Tesseract** OCR(광학 문자 인식) 기능을 제공
+
 <br>
+
+---
+
+## 주요 기능
+### 🔐 회원 관리
+- **회원가입/로그인 기능** (bcrypt 해싱, JWT 기반 인증)
+- JWT 토큰을 활용한 API 접근 권한 제어
+
+<br>
+
+### 🧾 지출 및 감정 입력
+- **OCR 기반 영수증 인식** (Crop → 이미지 처리 → 텍스트 추출)
+- 사용자의 감정 입력 및 분석 결과 저장
+- 감정에 따른 문장 분석 및 원인 추론 기능
+  ![image](https://github.com/user-attachments/assets/d25927e9-b799-4981-9583-1898e1174c34)
+
+
+<br>
+
+
+### 📊 지출 시각화 대시보드
+- 감정별 지출 총액 그래프
+    - 최근 30일간의 지출 중 가장 많았던 감정을 출력
+    - 각 감정별로 지출의 몇%를 차지하는지 확인
+    - 지출을 많이하는 감정에 유의하도록 하는 기능
+  ![image](https://github.com/user-attachments/assets/fee19dc5-3260-464d-8d3a-234bfe82371d)
+
+<br>
+
+
+- 일별 감정 및 지출 변화 추이
+    - 최근 30일간의 일별 지출 시각화
+    - 감정 함께 확인 가능
+  ![image](https://github.com/user-attachments/assets/d154327a-dba6-4ad8-80fc-edb0384b205a)
+
+<br>
+
+
+- 감정 변화 라인차트 (내 감정 확인)
+    - 최근 30일간의 일별 감정 시각화
+  ![image](https://github.com/user-attachments/assets/e7067af0-8258-484b-b60a-bc4964a892e9)
+
+<br>
+
+
+- 카테고리별 지출 분석
+  - 최근 30일간의 일별 감정 시각화
+  - 사용자가 어떤 카테고리에서 지출을 많이하는지 확인
+  ![image](https://github.com/user-attachments/assets/762ddbb2-f97f-485e-952b-09fbfb029d5e)
+
+<br>
+
+
+- 이번 달 예산 대비 남은 금액 시각화 (도넛 차트)
+    - 이번달 예산 입력시 남은금액 / 초과금액 시각화
+  ![image](https://github.com/user-attachments/assets/1e140fbc-c88b-4872-9561-44a65abf566f)
+
+<br>
+
+
+- 달력 기반 감정 + 지출 통합 보기
+    - 사용자가 지금까지 입력한 모든 지출과 감정을 한눈에 확인 가능!
+  ![image](https://github.com/user-attachments/assets/d4a17ab3-467c-4f05-8c2c-157dbd580b7a)
+
+<br>
+
+
+- 주간 감정 요약 및 긍정 문구 제공 (다이어리 탭)
+    - 사용자의 감정 기록 확인
+    - 이번주의 평균 감정 시각화
+  ![image](https://github.com/user-attachments/assets/17ec72e1-ce37-4a2a-bdc6-62eafb5a4ffb)
+
+<br>
+
+
+## 🤖 감정 분석 로직
+
+- 감정 분류: `nlp04/korean_sentiment_analysis_dataset3_best` 모델 사용
+- 원인 추출: `은전한닢 (Mecab)` 형태소 분석기를 통해 규칙 기반 파싱
+- 분석된 감정 및 원인을 기반으로 **템플릿 문장 생성**
+- 부정 감정 시 공감 문구를 출력하여 사용자 위로
+
+
+---
+
+### MySQL 데이터베이스
+![image](https://github.com/user-attachments/assets/7c665c50-586b-4e23-9927-2e95758cb464)
+
+```SQL
+-- 데이터베이스가 없다면 생성, 명시한 DB 사용
+CREATE DATABASE IF NOT EXISTS receipt_app;
+USE receipt_app;
+
+-- user 테이블 생성 (변동 없음)
+CREATE TABLE IF NOT EXISTS user (
+    user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+-- receipt 테이블 생성 (자료형 변경 반영)
+CREATE TABLE IF NOT EXISTS receipt (
+    receipt_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    receipt_date DATE NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    total_amount INT NOT NULL, -- DECIMAL에서 INT로 다시 변경
+    emotion_type VARCHAR(20) NULL COMMENT '영수증에 기록된 감정 유형',
+    emotion_description TEXT NULL COMMENT '감정에 대한 설명',
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+);
+```
 
 ---
 
@@ -102,6 +220,7 @@
  ### 2025-05-19
 - 회의 내용
   - DB 구조 수정 회의 진행 : 테이블 3개 형태
+  - 영수증, 감정, 사용자 테이블 각각 저장
  
 
 <br>
@@ -110,7 +229,12 @@
 - 회의 내용
   - 감정과 지출 출력 형태 논의
   - 감정 지출 입력 페이지, 그래프 등 UI변경
-  - 테이블 재정의
+  - 테이블 재정의 : 영수증과 감정 테이블 통합
+    ![image](https://github.com/user-attachments/assets/ab7b48f7-7a3b-44b5-ab67-fd83405778f1)
+
+  - 기능 추가 논의
+      - 감정별 그래프 수정
+      - 달력 탭 추가
 
 
 <br>
@@ -119,6 +243,11 @@
 - 회의 내용
   - db 테스트 방법 논의
   - 영수증 입력 및 감정 입력 형태 변경
+  - 감정을 이용한 추가 기능 논의
+  - API 연동 계획
+  - 사용자 협업툴을 이용한 API연동 흐름 논의
+    ![image](https://github.com/user-attachments/assets/39cad509-0a71-4c2e-a2fb-9f048779ae77)
+
  <br>
 
  ### 2025-05-30
