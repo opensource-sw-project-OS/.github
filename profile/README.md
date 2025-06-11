@@ -1,3 +1,4 @@
+<img src="https://capsule-render.vercel.app/api?type=venom&height=400&color=0:BDE6B5,100:84C5F4&text=Project_OS&fontColor=BLACK&fontSize=79&descAlign=50" />
 
 # 📊 소비와 감정을 함께 기록하는 Project OS
 
