@@ -33,8 +33,22 @@
 - chore: 빌드 업무 수정, 패키지 매니저 설정 등
 - delete: 파일 삭제
 
+<br>
+
 #### 커밋 규칙
-팀원 개별 repository에 fork 후 PR
+##### 👩‍💻 프로젝트 초반 : fork 후 test branch에서 commit하고 Pull Request
+- 초반에는 간단한 구조이므로 fork 방식으로 진행
+  
+##### 👩‍💻 프로젝트 후반 : 기능 브랜치 따로 작업 후 dev에 merge, 최종적으로 main에 merge
+- 후반에는 기능, 페이지가 많아지고 백엔드 연동 등 복잡도가 올라가여 브랜치 전략을 기능 단위 개발 및 테스트가 더 수월한 구조로 전환
+- (작업을 진행하며 불편함을 느껴 기존 방식보다 실무적인 방식으로 구조 개선)
+- ex)  [main] ← [dev] ← [feat/login], [feat/signup] 등 
+  - main: 배포 가능 상태
+  - dev: 테스트 및 feat 조립
+  - feat/*: 기능 단위 개발 -> 버그 원인 파악, 롤백 용이
+- Insights - Network
+
+<br>
 
 #### PR (Pull Request) 규칙
 - 제목: [태그] 간단한 작업 요약
@@ -149,6 +163,36 @@ https://github.com/orgs/opensource-sw-project-OS/projects/2
 - 원인 추출: `은전한닢 (Mecab)` 형태소 분석기를 통해 규칙 기반 파싱
 - 분석된 감정 및 원인을 기반으로 **템플릿 문장 생성**
 - 부정 감정 시 공감 문구를 출력하여 사용자 위로
+
+---
+
+
+
+
+## front-end repository 구조
+
+```
+📁 models                       ← 감정을 나타내는 3D GLB 파일들
+├── 📄 angry.glb                ← 분노 감정 모델 
+├── 📄 anxious.glb              ← 불안 감정 모델 
+├── 📄 happy.glb                ← 기쁨 감정 모델 
+├── 📄 normal.glb               ← 중립 감정 모델 
+└── 📄 sad.glb                  ← 슬픔 감정 모델 
+
+📁 public                       ← 정적 파일(CSS, JS) 저장 위치 
+├── 📁 css
+│   └── 📄 dashboard.css        ← 대시보드의 스타일을 정의한 CSS 파일 
+└── 📁 js
+    └── 📄 dashboard.js         ← 대시보드의 주요 기능 구현 JavaScript 파일 
+
+📁 template                     ← 렌더링될 HTML 템플릿 페이지들 
+├── 📄 dashboard.html           ← 메인 대시보드 페이지
+├── 📄 login.html               ← 로그인 페이지 
+├── 📄 project_os_intro.html    ← 최초 접속 페이지 
+└── 📄 signup.html              ← 회원가입 페이지 
+```
+
+<br>
 
 ---
 
